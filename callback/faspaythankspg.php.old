@@ -1,0 +1,114 @@
+<?php
+
+$complete = "https://d13yacurqjgara.cloudfront.net/users/159981/screenshots/2112264/checkmark.gif";
+$failed = "https://pixabay.com/static/uploads/photo/2016/02/02/05/53/cancel-1174809_960_720.png";
+$systemURL = "https://client.masterwebinstant.com/";
+
+
+if (isset($_GET)) {
+    if($_GET["ERR_CODE"]=="5530"){
+        echo "<div style='text-align:center; margin:60px;' class='container'>";
+            echo "<main id='htlfndr-main-content' class='htlfndr-main-content' role='main'>";
+                echo "<article class='htlfndr-thanks-page text-center'>";
+        echo "<h1>Invoice Expired!</h1>";
+        echo "<h3>";
+                echo "<span class='htlfndr-logo-text'>".$_POST['MERCHANT_TRANID']."</span>";
+        echo "<br><a href='https://client.masterwebinstant.com/cart.php'>Please Re-Order to Get Products<a> </h3>";
+        $status = "Expired";
+        echo "<img style='width:130px; padding:60px' src=".$failed.">";
+        echo "<div>";
+            echo "<h4>Your payment status is : ".$status."</h4>";
+        echo "</div>";
+    }
+}
+
+
+if (isset($_POST)) {
+        echo "<head>";
+            echo "<link rel='stylesheet' type='text/css' href='http://dmypbau5frl9g.cloudfront.net/assets/market/core/index-8971079cb5a7d3dde241d3f616452ca0.css' />";
+            echo "<link rel='stylesheet' type='text/css' href='http://dmypbau5frl9g.cloudfront.net/assets/market/pages/preview/index-fabbcabfac87d416f1755c591de00fec.css' />";
+        echo "</head>";
+        
+        echo "<div style='text-align:center; margin:70px;' class='container'>";
+            echo "<main id='htlfndr-main-content' class='htlfndr-main-content' role='main'>";
+                echo "<article class='htlfndr-thanks-page text-center'>";
+                
+                switch (TRUE) {
+                    case ($_POST["TXN_STATUS"]=="F" || $_POST["TXN_STATUS"]=="RC") :
+                        echo "<h1>Sorry!</h1>";
+                        echo "<h3>For your order payment on Invoice : ";
+                                echo "<span class='htlfndr-logo-text'>".$_POST['MERCHANT_TRANID']."</span>";
+                        echo "<br><a href='https://client.masterwebinstant.com/cart.php'>Please re-order to get Products<a> </h3>";
+                        $status = "Payment Failed";
+                        echo "<img style='width:130px; padding:60px' src=".$failed.">";
+                        echo "<div>";
+                            echo "<h4>Your payment status is : ".$status."</h4>";
+                        echo "</div>";
+                    break;
+                
+                    case ($_POST["TXN_STATUS"]=="N") :
+                        echo "<h1>Thank You!</h1>";
+                        echo "<h3>For your order payment on Invoice : ";
+
+                            echo "<a href='".$systemURL."viewinvoice.php?id=".$_POST['MERCHANT_TRANID']."'>";
+                                echo "<span class='htlfndr-logo-text'>".$_POST['MERCHANT_TRANID']."</span>";
+                            echo "</a>";
+                        echo "</h3>";
+                        $status = "Payment Pending";
+                        echo "<img style='width:350px; padding:-100px' src=".$complete.">";
+                        echo "<div>";
+                            echo "<h4>Your payment status is : ".$status."</h4>";
+                        echo "</div>";
+                    break;
+                
+                    case ($_POST['TXN_STATUS']  == "A") :
+                        echo "<h1>Thank You!</h1>";
+                        echo "<h3>For your order payment on Invoice : ";
+
+                            echo "<a href='".$systemURL."viewinvoice.php?id=".$_POST['MERCHANT_TRANID']."'>";
+                                echo "<span class='htlfndr-logo-text'>".$_POST['MERCHANT_TRANID']."</span>";
+                            echo "</a>";
+                        echo "</h3>";
+                        $status = "Payment Proccess";
+                        echo "<img style='width:350px; padding:-100px' src=".$complete.">";
+                        echo "<div>";
+                            echo "<h4>Your payment status is : ".$status."</h4>";
+                        echo "</div>";
+                    break;
+                
+                    case ($_POST['TXN_STATUS']  == "S" || $_POST['TXN_STATUS']  == "C") :
+                        echo "<h1>Thank You!</h1>";
+                        echo "<h3>For your order payment on Invoice : ";
+                            echo "<a target='_blank' href='".$systemURL."viewinvoice.php?id=".$_POST['MERCHANT_TRANID']."'>";
+                                echo "<span class='htlfndr-logo-text'>".$_POST['MERCHANT_TRANID']."</span>";
+                            echo "</a>";
+                        echo "</h3>";
+                        $status = "Payment Success";
+                        echo "<img style='width: 400px; margin:-20px' src=".$complete.">";
+                        echo "<div>";
+                            echo "<h4>Your payment status is : ".$status."</h4>";
+                        echo "</div>";
+                    break;
+                
+                    case ($_POST["TXN_STATUS"] == "V") :
+                        echo "<h1>Sorry!</h1>";
+                        echo "<h3>For your order payment on Invoice : ";
+                            echo "<a href='".$systemURL."viewinvoice.php?id=".$_POST['MERCHANT_TRANID']."'>";
+                                echo "<span class='htlfndr-logo-text'>".$_POST['MERCHANT_TRANID']."</span>";
+                            echo "</a>";
+                        echo "</h3>";
+                        $tatus = "Unknown Payment";
+                        echo "<img style='width:350px; padding:-100px' src=".$complete.">";
+                        echo "<div>";
+                            echo "<h4>Your payment status is : ".$status."</h4>";
+                        echo "</div>";
+                    break;
+                }
+                
+                echo "<a class='htlfndr-more-link text-center' href='".$systemURL."'>Back to Client Area</a>";
+            echo "</main>";
+        echo "</div>";
+}
+
+
+?>
